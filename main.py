@@ -17,8 +17,8 @@ intents.message_content = True
 intents.members = True
 client = discord.Client(intents=intents)
 
-KEY = "AIzaSyDwz814DWS9tgPhtsVDTGZWlvD13kCh1r8"
-genai.configure(api_key=KEY)
+
+genai.configure(api_key=API_KEY)
 
 text_model = genai.GenerativeModel(model_name="gemini-pro",
                               generation_config=settings.text_generation_config, # type: ignore
@@ -88,4 +88,4 @@ async def task():
 
       
 
-client.run("MTE3MDc4MTkxMzQ4MTQ5MDQ3Mg.GVPo6A.FB_dGEq57AWYfzk5m9OXU1zohj29kNyvm5NKYo")
+client.run(BOT_TOKEN)
