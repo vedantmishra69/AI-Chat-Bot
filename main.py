@@ -69,7 +69,8 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    
+    if message.channel.id != 1234: 
+        return
     processes.append(message)
     
 
