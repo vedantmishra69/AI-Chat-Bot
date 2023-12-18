@@ -19,8 +19,8 @@ intents.members = True
 client = discord.Client(intents=intents)
 
 CHANNEL_ID = 1234
-API_KEY = os.environ["API_KEY"]
-BOT_TOKEN = os.environ["BOT_TOKEN"]
+#API_KEY = os.environ["API_KEY"]
+#BOT_TOKEN = os.environ["BOT_TOKEN"]
 
 genai.configure(api_key=API_KEY)
 
