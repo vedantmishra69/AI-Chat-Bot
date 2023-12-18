@@ -56,7 +56,7 @@ async def get_response(message):
         for string in strings[1:]: 
             await message.channel.send(string)
     except Exception as e:
-        await message.channel.send("Response has been blocked or not available, please try again.")
+        await message.reply("Response has been blocked or not available, please try again.")
         print(e)
 
 @client.event
