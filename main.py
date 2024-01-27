@@ -49,8 +49,8 @@ async def get_response(message, chat):
         image = None
         response = ""
         attachment = message.attachments[0] if message.attachments else None
-        if not attachment: 
-            try: 
+        if not attachment:
+            try:
                 response = chat.send_message(message.content).text
             except Exception as e:
                 response = no_response_message
@@ -67,7 +67,7 @@ async def get_response(message, chat):
                     print(e)
             else: response = "Invalid image format. please use JPEG, PNG, WEBP, HEIC or HEIF"
         else:
-            try: 
+            try:
                 att_content = requests.get(attachment.url).content.decode()
             except Exception as e:
                 response = "Format not supported: " + attachment.filename
@@ -91,14 +91,14 @@ async def print_response(response, message):
         strings.append("".join(string))
         try:
             await message.reply(strings[0])
-            for string in strings[1:]: 
+            for string in strings[1:]:
                 await message.channel.send(string)
-        except Exception as e: 
+        except Exception as e:
             message.reply("No response, discord issue :(")
             print("last message:", message.content)
             print(e)
-    
-                
+
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -120,9 +120,9 @@ async def on_message(message):
                 await message.channel.send("Current channels:" + "".join(set_channels))
             else:
                 await message.channel.send("No channel has been set. type $set to set it.")
-        else: 
+        else:
             await message.channel.send("you don't have ``Manage channels`` permission!")
-            
+
     if message.content.startswith("$set"):
         if has_permissions(message):
             if message.channel.type == discord.ChannelType.text:
@@ -135,7 +135,7 @@ async def on_message(message):
                 await message.channel.send("It should be a text channel!")
         else:
             await message.channel.send("you don't have ``Manage channels`` permission!")
-            
+
     if message.content.startswith("$help"):
         await message.channel.send(help_text)
 
@@ -148,7 +148,7 @@ async def on_message(message):
                 await message.channel.send("This channel has not been set. type $set to set it.")
         else:
             await message.channel.send("you don't have ``Manage channel`` permission!")
-            
+
     if message.content.startswith("$clear"):
         if message.author.guild_permissions.manage_threads:
             for Id in allowed_channels:
@@ -159,25 +159,25 @@ async def on_message(message):
                             await thread.delete()
                             count += 1
                     await message.channel.send(f"{count} threads deleted for ``{message.guild.get_channel(Id).name}``.")
-        else: 
+        else:
             await message.channel.send("you don't have ``Manage threads`` permission!")
-            
-            
+
+
     if str(message.channel.id) in chats:
         client.loop.create_task(get_response(message, chats[str(message.channel.id)])) # type: ignore
     elif message.content:
         first = message.content.split()[0]
-        if first == "$chat": 
-            if message.channel.id in allowed_channels: 
+        if first == "$chat":
+            if message.channel.id in allowed_channels:
                 await start_thread(message, True)
             else:
                 await message.channel.send("This channel has not been set. type $set to set it.")
-        elif first == "$private": 
-            if message.channel.id in allowed_channels: 
+        elif first == "$private":
+            if message.channel.id in allowed_channels:
                 await start_thread(message, False)
             else:
                 await message.channel.send("This channel has not been set. type $set to set it.")
-                
+
 def has_permissions(message):
     return (message.author.guild_permissions.manage_channels and message.guild.id in allowed_guilds) or message.author.id == dev_id
 
@@ -193,7 +193,5 @@ async def start_thread(message, is_public):
     except Exception as e:
         await message.channel.send("Could not start a thread :(")
         print(e)
-   
-client.run(BOT_TOKEN) 
 
-
+client.run(BOT_TOKEN)
